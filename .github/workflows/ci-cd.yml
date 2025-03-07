@@ -1,0 +1,66 @@
+name: Go CI/CD Pipeline on Windows
+
+# Trigger the workflow on push or pull request to the main branch
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  # Job for testing Go code on Windows
+  test:
+    runs-on: windows-latest  # Windows runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.18'  # Set your Go version here
+
+      - name: Cache Go modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            C:\Users\runneradmin\AppData\Local\go-build
+            C:\Users\runneradmin\go\pkg\mod
+          key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-mod-
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run tests
+        run: go test -v ./...
+
+  # Job for building the Go binary on Windows
+  build:
+    runs-on: windows-latest  # Windows runner
+    needs: test  # Ensure build runs only if the test job is successful
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.18'  # Set your Go version here
+
+      - name: Build Go binary
+        run: |
+          go build -o myapp.exe .
+
+      - name: Upload Go binary as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: go-binary
+          path: myapp.exe
+
+  # Job for deploying the Go application (optional)
