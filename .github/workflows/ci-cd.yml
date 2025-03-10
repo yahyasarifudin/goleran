@@ -55,7 +55,8 @@ jobs:
 
       - name: Build Go binary
         run: |
-          path: | D:\KERJA\2025\GO\goleran\hello
+          cd D:\KERJA\2025\GO\goleran\hello
+          ls -la   # Optional: verifies that .go files exist
           go build -o myapp.exe .
 
       - name: Upload Go binary as artifact
