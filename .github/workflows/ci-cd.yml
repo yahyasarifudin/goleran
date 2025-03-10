@@ -54,17 +54,17 @@ jobs:
           go-version: '1.24'  # Set your Go version here
           
       - name: Create hello folder
-        run: New-Item -ItemType Directory -Path "D:/KERJA/2025/GO/goleran/helloExe" -Force
+        run: New-Item -ItemType Directory -Path "./hello -Force
 
       - name: Build Go binary
         run: |
-          cd D:/KERJA/2025/GO/goleran/helloExe
+          cd hello
           go build -o myapp.exe .
 
       - name: Upload Go binary as artifact
         uses: actions/upload-artifact@v4
         with:
           name: go-binary
-          path: D:/KERJA/2025/GO/goleran/helloExe/myapp.exe
+          path: ./hello/myapp.exe
 
   # Job for deploying the Go application (optional)
