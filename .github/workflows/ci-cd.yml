@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: '1.24'  # Set your Go version here
 
@@ -46,17 +46,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: '1.24'  # Set your Go version here
+          
+      - name: Create hello folder
+        run: New-Item -ItemType Directory -Path "./hello" -Force
 
       - name: Build Go binary
         run: |
-          cd D:\KERJA\2025\GO\goleran\hello
-          ls -la   # Optional: verifies that .go files exist
+          cd hello
           go build -o myapp.exe .
 
       - name: Upload Go binary as artifact
