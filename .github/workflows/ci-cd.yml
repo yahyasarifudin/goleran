@@ -54,7 +54,7 @@ jobs:
           go-version: '1.24'  # Set your Go version here
           
       - name: Create hello folder
-        run: New-Item -ItemType Directory -Path "./hello -Force
+        run: New-Item -ItemType Directory -Path "./hello" -Force
 
       - name: Build Go binary
         run: |
